@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 // Middleware
@@ -84,6 +84,15 @@ async function run() {
                 res.status(500).send('Internal Server Error');
             }
         });
+
+
+        app.delete('/carts/:id',async (req, res) => {
+            const cartItemId = req.params.id;
+            const query = { _id: new ObjectId(cartItemId) };
+            const result = await cartCollections.deleteOne(query);
+            res.send(result);
+        });
+
 
 
 
